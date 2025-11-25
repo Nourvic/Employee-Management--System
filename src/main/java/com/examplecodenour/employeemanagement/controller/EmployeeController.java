@@ -1,10 +1,7 @@
 package com.examplecodenour.employeemanagement.controller;
 
 import com.examplecodenour.employeemanagement.entities.Employee;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -26,12 +23,16 @@ public class EmployeeController {
 
     @GetMapping("/{employeeId}")
     public Optional<Employee> findOne(@PathVariable UUID employeeId) {
-        Optional<Employee> emp = employees.stream().filter(e -> e.getId().equals(employeeId)).findFirst();
-        return emp;
+        //Optional<Employee> emp = employees.stream().filter(e -> e.getId().equals(employeeId)).findFirst();
+        return employees.stream().filter(e -> e.getId().equals(employeeId)).findFirst();
     }
 
-    @GetMapping("hello")
-    public String hello() {
-        return "Hello Spring-boot";
+    @PostMapping()
+    public Employee createOne(@RequestBody Employee employee) {
+        employee.setId(UUID.randomUUID());
+        employee.setDepartmentId(UUID.randomUUID());
+        employees.add(employee);
+        return employee;
     }
+    
 }
