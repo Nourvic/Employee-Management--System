@@ -41,4 +41,20 @@ public class EmployeeController {
             employees.remove(emp.get());
         }
     }
+
+    @PutMapping("/{employeeId}")
+    public Optional<Employee> updateOne(@PathVariable UUID employeeId, @RequestBody Employee employee) {
+        Optional<Employee> excemp = employees.stream().filter(e -> e.getId().equals(employeeId)).findFirst();
+        if (excemp.isPresent()) {
+            excemp.get().setFirstName(employee.getFirstName());
+            excemp.get().setLastName((employee.getLastName()));
+            excemp.get().setEmail(employee.getEmail());
+            excemp.get().setPhoneNumber(employee.getPhoneNumber());
+            excemp.get().setPosition(employee.getPosition());
+            excemp.get().setHireDate(employee.getHireDate());
+            excemp.get().setDepartmentId(employee.getDepartmentId());
+
+        }
+        return excemp;
+    }
 }
