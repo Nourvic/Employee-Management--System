@@ -15,40 +15,18 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
-    List<Employee> employees = new ArrayList(
-            List.of(new Employee(
-                            UUID.randomUUID(),
-                            "Nour",
-                            "Salim",
-                            "noursalim@gmail.com",
-                            "017297xxxx",
-                            LocalDate.now(),
-                            "DevOps",
-                            UUID.randomUUID()
-                    ),
-                    new Employee(
-                            UUID.randomUUID(),
-                            "Mohamad",
-                            "Salim",
-                            "mohamadsalim@gmail.com",
-                            "017297xxxx",
-                            LocalDate.now(),
-                            "Cyber",
-                            UUID.randomUUID()
-                    )
+    List<Employee> employees = new ArrayList(List.of(new Employee(UUID.randomUUID(), "Nour", "Salim", "noursalim@gmail.com", "017297xxxx", LocalDate.now(), "DevOps", UUID.randomUUID()), new Employee(UUID.randomUUID(), "Mohamad", "Salim", "mohamadsalim@gmail.com", "017297xxxx", LocalDate.now(), "Cyber", UUID.randomUUID())
 
-            )
-    );
+    ));
 
     @GetMapping()
     public List<Employee> HelloWold() {
         return employees;
     }
 
-  @GetMapping("/{employeeId}")
+    @GetMapping("/{employeeId}")
     public Optional<Employee> findOne(@PathVariable UUID employeeId) {
-      Optional<Employee> emp = employees.stream()
-              .filter(e->e.getId().equals(employeeId)).findFirst();
+        Optional<Employee> emp = employees.stream().filter(e -> e.getId().equals(employeeId)).findFirst();
         return emp;
     }
 
