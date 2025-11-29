@@ -1,6 +1,7 @@
 package com.examplecodenour.employeemanagement.controller;
 
 import com.examplecodenour.employeemanagement.entities.Employee;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,11 +30,11 @@ public class EmployeeController {
     }
 
     @PostMapping()
-    public ResponseEntity<Employee> createOne(@RequestBody Employee employee) {
+    public ResponseEntity<Employee> createOne(@Valid @RequestBody Employee employee) {
         employee.setId(UUID.randomUUID());
         employee.setDepartmentId(UUID.randomUUID());
         employees.add(employee);
-        return new ResponseEntity<Employee>(employee, HttpStatus.CREATED);
+        return new ResponseEntity<>(employee, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{employeeId}")
@@ -44,7 +45,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/{employeeId}")
-    public ResponseEntity<Employee> updateOne(@PathVariable UUID employeeId, @RequestBody Employee employee) {
+    public ResponseEntity<Employee> updateOne(@PathVariable UUID employeeId, @Valid @RequestBody Employee employee) {
         Optional<Employee> excemp = employees.stream().filter(e -> e.getId().equals(employeeId)).findFirst();
         return excemp.map(e -> {
             e.setFirstName(employee.getFirstName());
