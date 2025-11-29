@@ -23,10 +23,9 @@ public class EmployeeController {
     }
 
     @GetMapping("/{employeeId}")
-    public ResponseEntity<Optional<Employee>> findOne(@PathVariable UUID employeeId) {
+    public ResponseEntity<Employee> findOne(@PathVariable UUID employeeId) {
         Optional<Employee> emp = employees.stream().filter(e -> e.getId().equals(employeeId)).findFirst();
-
-        return new ResponseEntity<Optional<Employee>>(emp, HttpStatus.OK);
+        return emp.isPresent() ? new ResponseEntity<>(emp.get(), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping()
@@ -45,19 +44,18 @@ public class EmployeeController {
     }
 
     @PutMapping("/{employeeId}")
-    public ResponseEntity<Optional<Employee>> updateOne(@PathVariable UUID employeeId, @RequestBody Employee employee) {
+    public ResponseEntity<Employee> updateOne(@PathVariable UUID employeeId, @RequestBody Employee employee) {
         Optional<Employee> excemp = employees.stream().filter(e -> e.getId().equals(employeeId)).findFirst();
-        if (excemp.isPresent()) {
-            excemp.get().setFirstName(employee.getFirstName());
-            excemp.get().setLastName((employee.getLastName()));
-            excemp.get().setEmail(employee.getEmail());
-            excemp.get().setPhoneNumber(employee.getPhoneNumber());
-            excemp.get().setPosition(employee.getPosition());
-            excemp.get().setHireDate(employee.getHireDate());
-            excemp.get().setDepartmentId(employee.getDepartmentId());
-
-        }
-        return new ResponseEntity<Optional<Employee>>(excemp, HttpStatus.OK);
+        return excemp.map(e -> {
+            e.setFirstName(employee.getFirstName());
+            e.setLastName(employee.getLastName());
+            e.setEmail(employee.getEmail());
+            e.setPhoneNumber(employee.getPhoneNumber());
+            e.setPosition(employee.getPosition());
+            e.setHireDate(employee.getHireDate());
+            e.setDepartmentId(employee.getDepartmentId());
+            return new ResponseEntity<>(e, HttpStatus.OK);
+        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 
     }
 }
