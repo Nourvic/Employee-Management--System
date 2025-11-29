@@ -1,6 +1,7 @@
 # Employee-Management--System
 
 🇩🇪 Deutsch
+
 Employee Managementssystem – Lernprojekt
 
 Dieses Projekt dient ausschließlich dazu, meine Kenntnisse in Spring Boot, Java, REST-APIs und grundlegender
@@ -25,6 +26,7 @@ Das Projekt ist nicht für den produktiven Einsatz gedacht, sondern als persönl
 
 -----------------------------------------------------------------
 🇬🇧 English
+
 Employee Management – Learning Project
 
 This project is created solely to improve my skills in Spring Boot, Java, REST APIs, and basic software architecture.
