@@ -1,6 +1,8 @@
 package com.examplecodenour.employeemanagement.controller;
 
 import com.examplecodenour.employeemanagement.entities.Employee;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -15,35 +17,35 @@ public class EmployeeController {
     List<Employee> employees = new ArrayList(List.of(new Employee(UUID.randomUUID(), "Nour", "Salim", "noursalim@gmail.com", "017297xxxx", LocalDate.now(), "DevOps", UUID.randomUUID()), new Employee(UUID.randomUUID(), "Mohamad", "Salim", "mohamadsalim@gmail.com", "017297xxxx", LocalDate.now(), "Cyber", UUID.randomUUID())));
 
     @GetMapping()
-    public List<Employee> HelloWold() {
-        return employees;
+    public ResponseEntity<List<Employee>> HelloWold() {
+        // ResponseEntity status vom Code kontrollieren falls beispielsweise ein Angestellter nicht vorhanden dann kann ich 404 schreiben
+        return new ResponseEntity<List<Employee>>(employees, HttpStatus.OK);
     }
 
     @GetMapping("/{employeeId}")
-    public Optional<Employee> findOne(@PathVariable UUID employeeId) {
-        //Optional<Employee> emp = employees.stream().filter(e -> e.getId().equals(employeeId)).findFirst();
-        return employees.stream().filter(e -> e.getId().equals(employeeId)).findFirst();
+    public ResponseEntity<Optional<Employee>> findOne(@PathVariable UUID employeeId) {
+        Optional<Employee> emp = employees.stream().filter(e -> e.getId().equals(employeeId)).findFirst();
+
+        return new ResponseEntity<Optional<Employee>>(emp, HttpStatus.OK);
     }
 
     @PostMapping()
-    public Employee createOne(@RequestBody Employee employee) {
+    public ResponseEntity<Employee> createOne(@RequestBody Employee employee) {
         employee.setId(UUID.randomUUID());
         employee.setDepartmentId(UUID.randomUUID());
         employees.add(employee);
-        return employee;
+        return new ResponseEntity<Employee>(employee, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{employeeId}")
-    public void deleteOne(@PathVariable UUID employeeId) {
+    public ResponseEntity<Void> deleteOne(@PathVariable UUID employeeId) {
         Optional<Employee> emp = employees.stream().filter(e -> e.getId().equals(employeeId)).findFirst();
-
-        if (emp.isPresent()) {
-            employees.remove(emp.get());
-        }
+        emp.ifPresent(e -> employees.remove(e));
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{employeeId}")
-    public Optional<Employee> updateOne(@PathVariable UUID employeeId, @RequestBody Employee employee) {
+    public ResponseEntity<Optional<Employee>> updateOne(@PathVariable UUID employeeId, @RequestBody Employee employee) {
         Optional<Employee> excemp = employees.stream().filter(e -> e.getId().equals(employeeId)).findFirst();
         if (excemp.isPresent()) {
             excemp.get().setFirstName(employee.getFirstName());
@@ -55,6 +57,7 @@ public class EmployeeController {
             excemp.get().setDepartmentId(employee.getDepartmentId());
 
         }
-        return excemp;
+        return new ResponseEntity<Optional<Employee>>(excemp, HttpStatus.OK);
+
     }
 }
