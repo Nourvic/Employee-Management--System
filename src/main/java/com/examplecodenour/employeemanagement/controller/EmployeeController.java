@@ -1,9 +1,11 @@
 package com.examplecodenour.employeemanagement.controller;
 
+import com.examplecodenour.employeemanagement.abstracts.EmployeeService;
 import com.examplecodenour.employeemanagement.entities.Employee;
 import com.examplecodenour.employeemanagement.shared.CustomResponseException;
 import com.examplecodenour.employeemanagement.shared.GlobalResponse;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,21 +19,26 @@ import java.util.UUID;
 @RequestMapping("/employees")
 public class EmployeeController {
     List<Employee> employees = new ArrayList<>();
+    @Autowired
+    private EmployeeService employeeService;
+
+//    public EmployeeController(EmployeeService employeeService) {
+//        this.employeeService = employeeService;
+//    }
 
     @GetMapping()
     public ResponseEntity<GlobalResponse<List<Employee>>> findAll() {
         // ResponseEntity status vom Code kontrollieren falls beispielsweise ein Angestellter nicht vorhanden dann kann ich 404 schreiben
-        return new ResponseEntity<>(new GlobalResponse<>(employees), HttpStatus.OK);
+        return new ResponseEntity<>(new GlobalResponse<>(employeeService.findAll()), HttpStatus.OK);
     }
 
 
     @GetMapping("/{employeeId}")
     public ResponseEntity<GlobalResponse<Employee>> findOne(@PathVariable UUID employeeId) {
-        Employee emp = employees.stream().filter(e -> e.getId().equals(employeeId)).findFirst().orElseThrow(() -> CustomResponseException.ResourceNotFound("Employee id with " + employeeId + " not found"));
-//  Optional 2      if (emp.isEmpty()) {
-//            throw CustomResponseException.ResourceNotFound("Employee id with " + employeeId + " not found");
-//        }
+        Employee emp = employeeService.findOne(employeeId);
+
         return new ResponseEntity<>(new GlobalResponse<>(emp), HttpStatus.OK);
+
     }
 
     @PostMapping()

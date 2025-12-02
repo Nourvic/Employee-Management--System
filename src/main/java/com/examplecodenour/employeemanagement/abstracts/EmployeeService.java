@@ -2,8 +2,14 @@ package com.examplecodenour.employeemanagement.abstracts;
 
 import com.examplecodenour.employeemanagement.entities.Employee;
 
-public interface EmployeeService {
+import java.util.List;
+import java.util.UUID;
 
-    Employee addOne(Employee employee);
+
+public interface EmployeeService {
+    List<Employee> findAll();
+
+    Employee findOne(UUID employeeId);
+
 
 }
