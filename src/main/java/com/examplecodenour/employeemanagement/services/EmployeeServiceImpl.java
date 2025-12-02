@@ -21,12 +21,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee findOne(UUID employeeId) {
-        return employees.stream()
-                .filter(e -> e.getId()
-                        .equals(employeeId))
-                .findFirst()
-                .orElseThrow(() -> CustomResponseException
-                        .ResourceNotFound("Employee id with " + employeeId + " not found"));
+        return employees.stream().filter(e -> e.getId().equals(employeeId)).findFirst().orElseThrow(() -> CustomResponseException.ResourceNotFound("Employee id with " + employeeId + " not found"));
 
         //   Employee emp = employees.stream() ................ Logik ->>> BlaBLaBla
 //      Or if (emp.isEmpty()) {
@@ -36,10 +31,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void deleteOne(UUID employeeId) {
-        Optional<Employee> emp = employees
-                .stream().
-                filter(e -> e.getId().equals(employeeId))
-                .findFirst();
+        Optional<Employee> emp = employees.stream().filter(e -> e.getId().equals(employeeId)).findFirst();
         emp.ifPresent(e -> employees.remove(e));
     }
 
@@ -51,4 +43,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employee;
     }
 
+    @Override
+    public Employee updateOne(UUID employeeId, Employee employee) {
+        Employee excemp = employees.stream().filter(e -> e.getId().equals(employeeId)).findFirst().orElseThrow(() -> CustomResponseException.ResourceNotFound("Employee id with " + employeeId + " not found"));
+
+        excemp.setFirstName(employee.getFirstName());
+        excemp.setLastName(employee.getLastName());
+        excemp.setEmail(employee.getEmail());
+        excemp.setPhoneNumber(employee.getPhoneNumber());
+        excemp.setPosition(employee.getPosition());
+        excemp.setHireDate(employee.getHireDate());
+        excemp.setDepartmentId(employee.getDepartmentId());
+        return excemp;
+    }
 }

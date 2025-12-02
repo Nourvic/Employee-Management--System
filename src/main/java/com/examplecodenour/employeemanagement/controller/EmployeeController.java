@@ -48,20 +48,13 @@ public class EmployeeController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    /*
+
     @PutMapping("/{employeeId}")
     public ResponseEntity<Employee> updateOne(@PathVariable UUID employeeId, @Valid @RequestBody Employee employee) {
-        Employee excemp = employees.stream().filter(e -> e.getId().equals(employeeId)).findFirst().orElseThrow(() -> CustomResponseException.ResourceNotFound("Employee id with " + employeeId + " not found"));
+        Employee excemp = employeeService.updateOne(employeeId, employee);
 
-        excemp.setFirstName(employee.getFirstName());
-        excemp.setLastName(employee.getLastName());
-        excemp.setEmail(employee.getEmail());
-        excemp.setPhoneNumber(employee.getPhoneNumber());
-        excemp.setPosition(employee.getPosition());
-        excemp.setHireDate(employee.getHireDate());
-        excemp.setDepartmentId(employee.getDepartmentId());
         return new ResponseEntity<>(excemp, HttpStatus.OK);
     }
 
-     */
+
 }
