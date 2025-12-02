@@ -11,5 +11,10 @@ public interface EmployeeService {
 
     Employee findOne(UUID employeeId);
 
+    void deleteOne(UUID employeeId);
+
+    Employee createOne(Employee employee);
+
+    Employee updateOne(UUID employeeId, Employee employee);
 
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -31,6 +32,23 @@ public class EmployeeServiceImpl implements EmployeeService {
 //      Or if (emp.isEmpty()) {
 //            throw CustomResponseException.ResourceNotFound("Employee id with " + employeeId + " not found");
 //        }
+    }
+
+    @Override
+    public void deleteOne(UUID employeeId) {
+        Optional<Employee> emp = employees
+                .stream().
+                filter(e -> e.getId().equals(employeeId))
+                .findFirst();
+        emp.ifPresent(e -> employees.remove(e));
+    }
+
+    @Override
+    public Employee createOne(Employee employee) {
+        employee.setId(UUID.randomUUID());
+        employee.setDepartmentId(UUID.randomUUID());
+        employees.add(employee);
+        return employee;
     }
 
 }

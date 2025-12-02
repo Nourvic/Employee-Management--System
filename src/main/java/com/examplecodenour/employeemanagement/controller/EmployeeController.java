@@ -2,7 +2,6 @@ package com.examplecodenour.employeemanagement.controller;
 
 import com.examplecodenour.employeemanagement.abstracts.EmployeeService;
 import com.examplecodenour.employeemanagement.entities.Employee;
-import com.examplecodenour.employeemanagement.shared.CustomResponseException;
 import com.examplecodenour.employeemanagement.shared.GlobalResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
-    List<Employee> employees = new ArrayList<>();
     @Autowired
     private EmployeeService employeeService;
 
@@ -32,7 +28,6 @@ public class EmployeeController {
         return new ResponseEntity<>(new GlobalResponse<>(employeeService.findAll()), HttpStatus.OK);
     }
 
-
     @GetMapping("/{employeeId}")
     public ResponseEntity<GlobalResponse<Employee>> findOne(@PathVariable UUID employeeId) {
         Employee emp = employeeService.findOne(employeeId);
@@ -43,19 +38,17 @@ public class EmployeeController {
 
     @PostMapping()
     public ResponseEntity<GlobalResponse<Employee>> createOne(@Valid @RequestBody Employee employee) {
-        employee.setId(UUID.randomUUID());
-        employee.setDepartmentId(UUID.randomUUID());
-        employees.add(employee);
+        Employee emp = employeeService.createOne(employee);
         return new ResponseEntity<>(new GlobalResponse<>(employee), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{employeeId}")
     public ResponseEntity<Void> deleteOne(@PathVariable UUID employeeId) {
-        Optional<Employee> emp = employees.stream().filter(e -> e.getId().equals(employeeId)).findFirst();
-        emp.ifPresent(e -> employees.remove(e));
+        employeeService.deleteOne(employeeId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    /*
     @PutMapping("/{employeeId}")
     public ResponseEntity<Employee> updateOne(@PathVariable UUID employeeId, @Valid @RequestBody Employee employee) {
         Employee excemp = employees.stream().filter(e -> e.getId().equals(employeeId)).findFirst().orElseThrow(() -> CustomResponseException.ResourceNotFound("Employee id with " + employeeId + " not found"));
@@ -69,4 +62,6 @@ public class EmployeeController {
         excemp.setDepartmentId(employee.getDepartmentId());
         return new ResponseEntity<>(excemp, HttpStatus.OK);
     }
+
+     */
 }
