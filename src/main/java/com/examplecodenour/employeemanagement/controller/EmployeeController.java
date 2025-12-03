@@ -1,6 +1,8 @@
 package com.examplecodenour.employeemanagement.controller;
 
 import com.examplecodenour.employeemanagement.abstracts.EmployeeService;
+import com.examplecodenour.employeemanagement.dto.EmployeeCreate;
+import com.examplecodenour.employeemanagement.dto.EmployeeUpdate;
 import com.examplecodenour.employeemanagement.entities.Employee;
 import com.examplecodenour.employeemanagement.shared.GlobalResponse;
 import jakarta.validation.Valid;
@@ -37,7 +39,7 @@ public class EmployeeController {
     }
 
     @PostMapping()
-    public ResponseEntity<GlobalResponse<Employee>> createOne(@Valid @RequestBody Employee employee) {
+    public ResponseEntity<GlobalResponse<EmployeeCreate>> createOne(@Valid @RequestBody EmployeeCreate employee) {
         Employee emp = employeeService.createOne(employee);
         return new ResponseEntity<>(new GlobalResponse<>(employee), HttpStatus.CREATED);
     }
@@ -50,7 +52,7 @@ public class EmployeeController {
 
 
     @PutMapping("/{employeeId}")
-    public ResponseEntity<Employee> updateOne(@PathVariable UUID employeeId, @Valid @RequestBody Employee employee) {
+    public ResponseEntity<Employee> updateOne(@PathVariable UUID employeeId, @Valid @RequestBody EmployeeUpdate employee) {
         Employee excemp = employeeService.updateOne(employeeId, employee);
 
         return new ResponseEntity<>(excemp, HttpStatus.OK);

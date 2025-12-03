@@ -1,5 +1,7 @@
 package com.examplecodenour.employeemanagement.abstracts;
 
+import com.examplecodenour.employeemanagement.dto.EmployeeCreate;
+import com.examplecodenour.employeemanagement.dto.EmployeeUpdate;
 import com.examplecodenour.employeemanagement.entities.Employee;
 
 import java.util.List;
@@ -13,8 +15,8 @@ public interface EmployeeService {
 
     void deleteOne(UUID employeeId);
 
-    Employee createOne(Employee employee);
+    Employee createOne(EmployeeCreate employee);
 
-    Employee updateOne(UUID employeeId, Employee employee);
+    Employee updateOne(UUID employeeId, EmployeeUpdate employee);
 
 }
