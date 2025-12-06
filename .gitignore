@@ -30,3 +30,5 @@ out/
 ### Build dirs ###
 build/
 bin/
+
+application.properties
