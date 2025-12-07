@@ -9,15 +9,11 @@ import com.examplecodenour.employeemanagement.shared.CustomResponseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-    List<Employee> employees = new ArrayList<>();
-
     @Autowired
     private EmployeeRepo employeeRepo;
 
@@ -28,17 +24,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee findOne(UUID employeeId) {
-        return employees.stream().filter(e -> e.getId().equals(employeeId)).findFirst().orElseThrow(() -> CustomResponseException.ResourceNotFound("Employee id with " + employeeId + " not found"));
-
-        //   Employee emp = employees.stream() ................ Logik ->>> BlaBLaBla
-//      Or if (emp.isEmpty()) {
-//            throw CustomResponseException.ResourceNotFound("Employee id with " + employeeId + " not found");
-//        }
+        return employeeRepo.findById(employeeId)
+                .orElseThrow(() -> CustomResponseException
+                        .ResourceNotFound("Employee with id " + employeeId + " not found"));
     }
 
     @Override
     public void deleteOne(UUID employeeId) {
-        Employee emp = employeeRepo.findById(employeeId).orElseThrow(() -> CustomResponseException.ResourceNotFound("Employee with" + employeeId + "not found"));
+        Employee emp = employeeRepo.findById(employeeId)
+                .orElseThrow(() -> CustomResponseException
+                        .ResourceNotFound("Employee with" + employeeId + "not found"));
         //employeeRepo.delete(emp);
         employeeRepo.deleteById(employeeId);
     }
@@ -58,8 +53,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee updateOne(UUID employeeId, EmployeeUpdate employee) {
-        Employee excemp = employees.stream().filter(e -> e.getId().equals(employeeId)).findFirst().orElseThrow(() -> CustomResponseException.ResourceNotFound("Employee id with " + employeeId + " not found"));
-
+        Employee excemp = employeeRepo.findById(employeeId)
+                .orElseThrow(() -> CustomResponseException
+                        .ResourceNotFound("Employee with" + employeeId + "not found"));
+        // employees.stream().filter(e -> e.getId().equals(employeeId)).findFirst().orElseThrow(() -> CustomResponseException.ResourceNotFound("Employee id with " + employeeId + " not found"));
         excemp.setFirstName(employee.firstName());
         excemp.setLastName(employee.lastName());
         excemp.setPhoneNumber(employee.phoneNumber());
