@@ -61,6 +61,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         excemp.setLastName(employee.lastName());
         excemp.setPhoneNumber(employee.phoneNumber());
         excemp.setPosition(employee.position());
-        return excemp;
+        return employeeRepo.save(excemp);
     }
 }
