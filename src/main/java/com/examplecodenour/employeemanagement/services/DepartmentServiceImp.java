@@ -1,6 +1,7 @@
 package com.examplecodenour.employeemanagement.services;
 
 import com.examplecodenour.employeemanagement.abstracts.DepartmentService;
+import com.examplecodenour.employeemanagement.dto.DepartemntCreate;
 import com.examplecodenour.employeemanagement.entities.Department;
 import com.examplecodenour.employeemanagement.repositories.DepartmentRepo;
 import com.examplecodenour.employeemanagement.shared.CustomResponseException;
@@ -32,9 +33,9 @@ public class DepartmentServiceImp implements DepartmentService {
     }
 
     @Override
-    public Department createOne(Department department) {
+    public Department createOne(DepartemntCreate department) {
         Department department1 = new Department();
-        department1.setDepartmentName(department.getDepartmentName());
+        department1.setDepartmentName(department.departmentName());
         return departmentRepo.save(department1);
     }
 

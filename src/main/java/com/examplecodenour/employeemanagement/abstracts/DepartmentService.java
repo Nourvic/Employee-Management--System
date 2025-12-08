@@ -1,5 +1,6 @@
 package com.examplecodenour.employeemanagement.abstracts;
 
+import com.examplecodenour.employeemanagement.dto.DepartemntCreate;
 import com.examplecodenour.employeemanagement.entities.Department;
 
 import java.util.List;
@@ -10,8 +11,8 @@ public interface DepartmentService {
 
     List<Department> findAll();
 
-    Department createOne(Department department);
+    Department createOne(DepartemntCreate department);
 
     void deleteOne(UUID departmentId);
-    
+
 }

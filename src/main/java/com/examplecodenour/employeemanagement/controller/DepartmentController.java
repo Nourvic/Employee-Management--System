@@ -1,8 +1,10 @@
 package com.examplecodenour.employeemanagement.controller;
 
 import com.examplecodenour.employeemanagement.abstracts.DepartmentService;
+import com.examplecodenour.employeemanagement.dto.DepartemntCreate;
 import com.examplecodenour.employeemanagement.entities.Department;
 import com.examplecodenour.employeemanagement.shared.GlobalResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +33,7 @@ public class DepartmentController {
     }
 
     @PostMapping()
-    public ResponseEntity<GlobalResponse<Department>> createOne(@RequestBody Department department) {
+    public ResponseEntity<GlobalResponse<Department>> createOne(@Valid @RequestBody DepartemntCreate department) {
         return new ResponseEntity<>(new GlobalResponse<>(departmentService.createOne(department)), HttpStatus.CREATED);
     }
 
