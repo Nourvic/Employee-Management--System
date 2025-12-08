@@ -13,9 +13,6 @@ import java.util.UUID;
 
 @Service
 public class DepartmentServiceImp implements DepartmentService {
-
-    @Autowired
-    private DepartmentRepo DepartmentRepo;
     @Autowired
     private DepartmentRepo departmentRepo;
 
@@ -39,9 +36,12 @@ public class DepartmentServiceImp implements DepartmentService {
         return departmentRepo.save(department1);
     }
 
+
     @Override
     public void deleteOne(UUID departmentId) {
+        Department department = departmentRepo.findById(departmentId).
+                orElseThrow(() -> CustomResponseException
+                        .ResourceNotFound("DepartmentId " + departmentId + "not found"));
+        departmentRepo.delete(department);
     }
-
-
 }

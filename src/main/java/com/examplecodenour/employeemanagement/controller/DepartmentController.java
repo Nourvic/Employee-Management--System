@@ -37,4 +37,9 @@ public class DepartmentController {
         return new ResponseEntity<>(new GlobalResponse<>(departmentService.createOne(department)), HttpStatus.CREATED);
     }
 
+    @DeleteMapping("/{departmentId}")
+    public ResponseEntity<Void> deleteOne(@PathVariable UUID departmentId) {
+        departmentService.deleteOne(departmentId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
