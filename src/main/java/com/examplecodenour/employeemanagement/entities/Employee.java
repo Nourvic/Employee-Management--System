@@ -1,5 +1,6 @@
 package com.examplecodenour.employeemanagement.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -41,8 +42,12 @@ public class Employee {
     @Column(name = "position", nullable = false)
     private String position;
 
-    @Column(name = "department_id", nullable = false)
-    @GeneratedValue(generator = "UUID")
-    @UuidGenerator
-    private UUID departmentId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "department_id", nullable = false)
+    @JsonProperty("department_id")
+    private Department department;
+
+    public UUID getDepartment() {
+        return department.getId();
+    }
 }

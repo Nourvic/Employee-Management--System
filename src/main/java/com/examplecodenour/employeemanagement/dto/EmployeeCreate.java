@@ -3,6 +3,7 @@ package com.examplecodenour.employeemanagement.dto;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 public record EmployeeCreate(
         @NotNull(message = "firstName ist required")
@@ -25,6 +26,12 @@ public record EmployeeCreate(
         @PastOrPresent(message = "hire date cannot be in the future")
         LocalDate hireDate,
 
-        String position
+        @NotNull
+        @Size(min = 2, max = 50)
+        String position,
+
+        @NotNull
+        UUID departmentId
+
 ) {
 }
