@@ -5,6 +5,7 @@ import com.examplecodenour.employeemanagement.dto.LeaveRequestCreate;
 import com.examplecodenour.employeemanagement.entities.Employee;
 import com.examplecodenour.employeemanagement.entities.LeaveRequest;
 import com.examplecodenour.employeemanagement.repositories.EmployeeRepo;
+import com.examplecodenour.employeemanagement.repositories.LeaveRequestRepo;
 import com.examplecodenour.employeemanagement.shared.CustomResponseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,12 +17,12 @@ import java.util.UUID;
 public class LeaveRequestImp implements LeaveRequestService {
     @Autowired
     private EmployeeRepo employeeRepo;
+    @Autowired
+    private LeaveRequestRepo leaveRequestRepo;
 
     @Override
     public LeaveRequest createOne(LeaveRequestCreate leaveRequestCreate, UUID employeeId) {
-        Employee emp = employeeRepo.findById(employeeId)
-                .orElseThrow(() -> CustomResponseException.
-                        ResourceNotFound("Employee with id " + employeeId + " not found"));
+        Employee emp = employeeRepo.findById(employeeId).orElseThrow(() -> CustomResponseException.ResourceNotFound("Employee with id " + employeeId + " not found"));
 
         LeaveRequest leaveRequest = new LeaveRequest();
         leaveRequest.setStatus("PEDNING !");
@@ -29,12 +30,12 @@ public class LeaveRequestImp implements LeaveRequestService {
         leaveRequest.setStartDate(leaveRequestCreate.startDate());
         leaveRequest.setEndDate(leaveRequestCreate.endDate());
         leaveRequest.setEmployee(emp);
-
+        leaveRequestRepo.save(leaveRequest);
         return leaveRequest;
     }
 
     @Override
     public List<LeaveRequest> findAllEmployeeById(UUID employeeId) {
-        return null;
+        return leaveRequestRepo.findByEmployeeId(employeeId);
     }
 }

@@ -38,4 +38,8 @@ public class LeaveRequest {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
+
+    public UUID getEmployee() {
+        return employee.getId();
+    }
 }
