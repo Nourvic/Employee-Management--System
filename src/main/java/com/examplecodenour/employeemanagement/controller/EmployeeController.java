@@ -1,9 +1,12 @@
 package com.examplecodenour.employeemanagement.controller;
 
 import com.examplecodenour.employeemanagement.abstracts.EmployeeService;
+import com.examplecodenour.employeemanagement.abstracts.LeaveRequestService;
 import com.examplecodenour.employeemanagement.dto.EmployeeCreate;
 import com.examplecodenour.employeemanagement.dto.EmployeeUpdate;
+import com.examplecodenour.employeemanagement.dto.LeaveRequestCreate;
 import com.examplecodenour.employeemanagement.entities.Employee;
+import com.examplecodenour.employeemanagement.entities.LeaveRequest;
 import com.examplecodenour.employeemanagement.shared.GlobalResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +22,7 @@ import java.util.UUID;
 public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
-
+    private LeaveRequestService leaveRequestService;
 //    public EmployeeController(EmployeeService employeeService) {
 //        this.employeeService = employeeService;
 //    }
@@ -58,5 +61,13 @@ public class EmployeeController {
         return new ResponseEntity<>(excemp, HttpStatus.OK);
     }
 
+    @PostMapping("/{employeeId}/leave-request}")
+    public ResponseEntity<GlobalResponse<LeaveRequest>> leaveRequetsCreate(
+            @PathVariable UUID employeeId,
+            @RequestBody @Valid LeaveRequestCreate leaveRequest) {
 
+        LeaveRequest newleaveRequst = leaveRequestService.createOne(leaveRequest, employeeId);
+
+        return new ResponseEntity<>(new GlobalResponse<>(newleaveRequst), HttpStatus.OK);
+    }
 }
