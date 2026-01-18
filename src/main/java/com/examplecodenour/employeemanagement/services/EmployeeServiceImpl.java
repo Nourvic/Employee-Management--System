@@ -29,7 +29,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee findOne(UUID employeeId) {
-        return employeeRepo.findById(employeeId).orElseThrow(() -> CustomResponseException.ResourceNotFound("Employee with id " + employeeId + " not found"));
+        Employee emp = employeeRepo.findById(employeeId).orElseThrow(() -> CustomResponseException.ResourceNotFound("Employee with id " + employeeId + " not found"));
+        return emp;
     }
 
     @Override

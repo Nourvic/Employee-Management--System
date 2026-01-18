@@ -15,14 +15,11 @@ public class SecurityConfig {
     // Bean injection for Methods min. 1Methode
     // Services we use it to inject it into Clases
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .cors(AbstractHttpConfigurer::disable)
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers(
-                            "/employees"
-                    ).permitAll();
-                });
+        http.cors(AbstractHttpConfigurer::disable).csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(auth -> {
+            //aut.anyRequest().permitAll() -> alle Endpoints sind freigegeben
+            // auth.anyRequest().permitAll();
+            auth.requestMatchers("/auth/login", "/employees").permitAll();
+        });
         return http.build();
     }
 }
