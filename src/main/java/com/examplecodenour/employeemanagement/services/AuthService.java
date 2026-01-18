@@ -7,6 +7,7 @@ import com.examplecodenour.employeemanagement.repositories.EmployeeRepo;
 import com.examplecodenour.employeemanagement.repositories.UserAccountRepo;
 import com.examplecodenour.employeemanagement.shared.CustomResponseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,7 +28,10 @@ public class AuthService implements UserDetailsService {
     private PasswordEncoder passwordEncoder;
 
     public void signUp(SignupRequest signupRequest) {
-        Employee emp = employeeRepo.findById(signupRequest.employeeId()).orElseThrow(() -> CustomResponseException.ResourceNotFound(" emoployee Id is not available"));
+        Employee emp = employeeRepo.findById(signupRequest.employeeId())
+                .orElseThrow(
+                        () -> CustomResponseException
+                                .ResourceNotFound(" emoployee Id is not available"));
 
         UserAccount userAccount1 = new UserAccount();
         userAccount1.setUserName(signupRequest.username());
@@ -40,8 +44,14 @@ public class AuthService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<UserAccount> account = userAccountRepo.findByUserName(username);
         if (account.isPresent()) {
-
+            throw CustomResponseException.BadCredentials();
         }
-        return null;
+        UserAccount user = account.get();
+
+        return User.builder()
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .roles(user.getRole())
+                .build();
     }
 }
