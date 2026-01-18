@@ -30,10 +30,11 @@ public class SecurityConfig {
     // Services we use it to inject it into Clases
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors(AbstractHttpConfigurer::disable).csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(auth -> {
-            //aut.anyRequest().permitAll() -> alle Endpoints sind freigegeben
-            //  auth.anyRequest().permitAll();
-            auth.requestMatchers("/auth/signup", "/employees").permitAll();
-        });
+                    //aut.anyRequest().permitAll() -> alle Endpoints sind freigegeben
+                    //  auth.anyRequest().permitAll();
+                    auth.requestMatchers("/auth/signup", "/employees").permitAll();
+                })
+                .authenticationManager(authenticationManager(http));
         return http.build();
     }
 
