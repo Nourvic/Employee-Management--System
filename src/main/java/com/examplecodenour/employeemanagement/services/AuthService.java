@@ -7,11 +7,16 @@ import com.examplecodenour.employeemanagement.repositories.EmployeeRepo;
 import com.examplecodenour.employeemanagement.repositories.UserAccountRepo;
 import com.examplecodenour.employeemanagement.shared.CustomResponseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
-public class AuthService {
+public class AuthService implements UserDetailsService {
     @Autowired
     private UserAccountRepo userAccountRepo;
 
@@ -29,5 +34,14 @@ public class AuthService {
         userAccount1.setPassword(passwordEncoder.encode(signupRequest.password()));
         userAccount1.setEmployee(emp);
         userAccountRepo.save(userAccount1);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<UserAccount> account = userAccountRepo.findByUserName(username);
+        if (account.isPresent()) {
+
+        }
+        return null;
     }
 }
