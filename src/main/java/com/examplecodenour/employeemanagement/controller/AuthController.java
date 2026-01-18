@@ -20,7 +20,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<GlobalResponse<String>> signUp(@RequestBody SignupRequest signupRequest) {
-        authService.signUp();
+        // authService.signUp();
         return new ResponseEntity<>(new GlobalResponse<>("Signed Up"), HttpStatus.OK);
     }
 }
