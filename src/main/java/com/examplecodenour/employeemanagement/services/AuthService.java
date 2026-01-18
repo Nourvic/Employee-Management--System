@@ -2,6 +2,7 @@ package com.examplecodenour.employeemanagement.services;
 
 import com.examplecodenour.employeemanagement.dto.SignupRequest;
 import com.examplecodenour.employeemanagement.entities.UserAccount;
+import com.examplecodenour.employeemanagement.repositories.EmployeeRepo;
 import com.examplecodenour.employeemanagement.repositories.UserAccountRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,9 +12,13 @@ public class AuthService {
     @Autowired
     private UserAccountRepo userAccountRepo;
 
+    @Autowired
+    private EmployeeRepo employeeRepo;
 
     public void signUp(SignupRequest signupRequest) {
-        UserAccount userAccount = new UserAccount();
+        UserAccount userAccount1 = new UserAccount();
+        userAccount1.setUserName(signupRequest.username());
+        userAccount1.setPassword(signupRequest.password());
 
     }
 }

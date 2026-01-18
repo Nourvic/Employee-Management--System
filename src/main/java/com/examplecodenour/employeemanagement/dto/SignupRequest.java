@@ -3,6 +3,8 @@ package com.examplecodenour.employeemanagement.dto;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.util.UUID;
+
 public record SignupRequest(
         @NotNull(message = "username is required")
         @Size(min = 2, max = 50, message = "Min 2 max 50 characters")
@@ -13,6 +15,6 @@ public record SignupRequest(
         String password,
 
         @NotNull(message = "employee id is required")
-        String employeeId
+        UUID employeeId
 ) {
 }
