@@ -43,7 +43,7 @@ public class AuthService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<UserAccount> account = userAccountRepo.findByUserName(username);
-        if (account.isPresent()) {
+        if (account.isEmpty()) {
             throw CustomResponseException.BadCredentials();
         }
         UserAccount user = account.get();
