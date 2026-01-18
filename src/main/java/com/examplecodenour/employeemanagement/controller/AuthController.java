@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     @PostMapping("/signup")
-
     public ResponseEntity<GlobalResponse<String>> signUp() {
         return new ResponseEntity<>(new GlobalResponse<>("Signed Up"), HttpStatus.OK);
     }
